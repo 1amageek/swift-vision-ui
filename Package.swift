@@ -1,26 +1,30 @@
 // swift-tools-version: 6.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "swift-vision-ui",
+    platforms: [.iOS(.v26), .macOS(.v26)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "swift-vision-ui",
-            targets: ["swift-vision-ui"]
-        ),
+        .library(name: "VisionUI", targets: ["VisionUI"]),
+    ],
+    dependencies: [
+        .package(path: "../OpenFoundationModels"),
+        .package(path: "../SwiftAgent"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "swift-vision-ui"
+            name: "VisionUI",
+            dependencies: [
+                .product(name: "OpenFoundationModels", package: "OpenFoundationModels"),
+                .product(name: "SwiftAgent", package: "SwiftAgent"),
+            ]
         ),
         .testTarget(
-            name: "swift-vision-uiTests",
-            dependencies: ["swift-vision-ui"]
+            name: "VisionUITests",
+            dependencies: [
+                "VisionUI",
+                .product(name: "OpenFoundationModels", package: "OpenFoundationModels"),
+            ]
         ),
     ]
 )
